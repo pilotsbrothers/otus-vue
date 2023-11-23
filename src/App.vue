@@ -10,15 +10,13 @@
 
 <script setup>
 import ListItems from './components/ListItems.vue'
-import axios from 'axios'
+import DataApi from './services/DataApi'
 import {ref, onMounted} from "vue";
 
 const items = ref({});
 
 onMounted( () => {
-    axios.get('https://fakestoreapi.com/products').then((response) => {
-      items.value = response.data
-    })
+    DataApi.getItems().then( (data) => items.value = data)
   }
 )
 
