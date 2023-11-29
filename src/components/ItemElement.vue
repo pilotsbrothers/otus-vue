@@ -1,8 +1,10 @@
 <template>
   <el-card class="item" @click="dialogVisible = true">
-    {{ item.title}}
+    {{ item.title }}
     <div>
-      <el-button class="btn-order" :type=" inOrder ? 'danger' : 'primary'" @click.stop="processOrder(item)">{{ inOrder ? 'Удалить' : 'Заказать'}}</el-button>
+      <el-button class="btn-order" :type=" inOrder ? 'danger' : 'primary'" @click.stop="processOrder(item)">
+        {{ inOrder ? 'Удалить' : 'Заказать' }}
+      </el-button>
     </div>
   </el-card>
 
@@ -24,16 +26,17 @@
 </template>
 
 <script setup>
-import { ElCard, ElDialog, ElButton } from 'element-plus'
-import {ref, defineEmits} from "vue"
+import {ElButton, ElCard, ElDialog} from 'element-plus'
+import {defineEmits, ref} from "vue"
 
 defineProps(['item'])
 const dialogVisible = ref(false)
 const inOrder = ref(false)
 const emit = defineEmits(['changeOrder'])
-function processOrder(el){
+
+function processOrder(el) {
   inOrder.value = !inOrder.value
-  emit('changeOrder', [ inOrder.value, el])
+  emit('changeOrder', [inOrder.value, el])
 }
 </script>
 
@@ -45,22 +48,26 @@ function processOrder(el){
   height: 100%;
 }
 
-.el-dialog__body img{
+.el-dialog__body img {
   width: 100%;
 }
-.title{
+
+.title {
   font-weight: bold;
   font-size: 22px;
 }
-.price{
-  font-size:18px;
+
+.price {
+  font-size: 18px;
   color: red;
 }
-.description{
-  font-size:14px;
-  color:grey;
+
+.description {
+  font-size: 14px;
+  color: grey;
 }
-.btn-order{
+
+.btn-order {
   position: absolute;
   bottom: 20px;
   left: 20px;
