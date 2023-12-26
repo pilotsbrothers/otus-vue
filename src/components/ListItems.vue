@@ -30,9 +30,12 @@ const price = computed(() => {
 })
 
 const goods = computed(() => {
+  if(props.search !== '') {
     return props.data.filter((el) => {
       return el.title.toLowerCase().includes(props.search.toLowerCase())
     })
+  }
+  return props.data
   },
   () => {
   })
