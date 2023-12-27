@@ -12,11 +12,13 @@
 <script setup>
 import MainLayout from "../layout/MainLayout.vue";
 import {computed} from "vue";
+import {useStore} from "vuex";
 const props = defineProps(['id'])
+const store = useStore()
+
 const item = computed(() => {
   let item = {}
-  let items = JSON.parse(localStorage.getItem('items'))
-  items.forEach((el) => {
+  store.state.items.forEach((el) => {
     if(parseInt(props.id) === parseInt(el.id)){
       item = el
     }

@@ -16,10 +16,10 @@
       </el-form-item>
       <el-row>
         <el-col :span="24">
-          <b>Количество товаров:</b> {{ props.count }}
+          <b>Количество товаров:</b> {{ totalCount }}
         </el-col>
         <el-col :span="24">
-          <b>Сумма заказа:</b> {{ props.price }}
+          <b>Сумма заказа:</b> {{ totalPrice }}
         </el-col>
       </el-row>
       <el-row>
@@ -32,12 +32,15 @@
 </template>
 
 <script setup>
-import {reactive} from "vue";
+import {computed, reactive} from "vue";
 import {defineRule, ErrorMessage, Field, Form} from 'vee-validate';
 import axios from "axios";
 import { ElNotification } from 'element-plus'
+import {useStore} from "vuex";
 
-const props = defineProps(['count', 'price'])
+const store = useStore()
+const totalPrice = computed(() => store.getters.totalPrice )
+const totalCount = computed(() => store.getters.totalCount )
 const form = reactive({
   fio: '',
   isAgree: false,
@@ -60,6 +63,7 @@ const success = () => {
 }
 
 const onSubmit = () => {
+  store.dispatch('saveUserData', {'fio': form.fio, 'email': form.email})
   axios.post(
     'https://httpbin.org/post',
     {

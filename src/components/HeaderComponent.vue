@@ -12,23 +12,24 @@
       </el-menu-item>
       <el-menu-item index="1"><router-link :to="{name: 'Main'}">Главная</router-link></el-menu-item>
       <el-menu-item index="2"><router-link :to="{name: 'Catalog'}">Каталог товаров</router-link></el-menu-item>
-      <el-menu-item index="3"><router-link :to="{name: 'Login'}">Админ панель</router-link></el-menu-item>
+      <el-menu-item index="3" v-if="!store.state.isAuth"><router-link :to="{name: 'Login'}">Вход</router-link></el-menu-item>
+      <el-menu-item v-if="store.state.isAuth">{{ store.state.fio }}<a @click.prevent="logout" href="">Выйти</a></el-menu-item>
       <el-menu-item index="4"><router-link :to="{name: 'Cards'}" class="card-item"><el-icon class="card-item__img"><ShoppingBag /></el-icon></router-link></el-menu-item>
     </el-menu>
   </div>
 </template>
 
 <script setup>
-  import {onMounted, ref} from "vue";
+  import {ref} from "vue";
+  import {useStore} from "vuex";
 
   const activeIndex = ref('1')
-  const isAuth = ref(false)
-
+  const store = useStore()
   function handleSelect(){}
 
-  onMounted(() => {
-    isAuth.value = localStorage.getItem('auth') === 'true';
-  })
+  function logout(){
+    store.dispatch('logout')
+  }
 </script>
 
 

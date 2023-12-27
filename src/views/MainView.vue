@@ -3,7 +3,7 @@
     <template #main>
       <template v-if="isLoading">
         <search v-model="searchGoods" />
-        <list-items :data="items" :search="searchGoods" />
+        <list-items :data="store.state.items" :search="searchGoods" />
       </template>
     </template>
   </MainLayout>
@@ -13,23 +13,18 @@
 <script setup>
 import ListItems from '../components/ListItems.vue'
 import Search from '../components/Inputs/SearchInput.vue'
-import DataApi from '../services/DataApi'
 import {onMounted, ref} from "vue";
 import MainLayout from "../layout/MainLayout.vue";
+import {useStore} from "vuex";
 
-const items = ref({})
 const isLoading = ref(false)
 const searchGoods = ref('')
-
+const store = useStore()
 onMounted(() => {
-    DataApi.getItems().then((data) => {
-      items.value = data
-      isLoading.value = true
-    })
-  }
-)
-
-
+  store.dispatch('getItems').then(() => {
+    isLoading.value = true
+  })
+})
 </script>
 
 <style scoped>

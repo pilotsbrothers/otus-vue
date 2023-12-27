@@ -1,7 +1,7 @@
 <template>
   <MainLayout>
     <template #main>
-      <Form ref="form" v-if="!isAuth">
+      <Form ref="form" v-if="!store.state.isAuth">
         <el-form-item label="Логин">
           <Field name="login" id="login" v-model="login" placeholder="" rules="required"></Field>
           <ErrorMessage name="login" class="error"/>
@@ -15,11 +15,11 @@
         </el-form-item>
       </Form>
 
-      <el-form-item v-if="isAuth === true">
+      <el-form-item v-if="store.state.isAuth === true">
         <el-button type="primary" @click="logoutUser" class="btn-logout">Выйти</el-button>
       </el-form-item>
 
-      <create-goods v-if="isAuth === true" @create-good="createGood"></create-goods>
+      <create-goods v-if="store.state.isAuth === true" @create-good="createGood"></create-goods>
     </template>
   </MainLayout>
 </template>
@@ -30,11 +30,12 @@ import CreateGoods from '../components/Forms/CreateGood.vue'
 import {onMounted, ref} from "vue";
 import {useRouter} from "vue-router/dist/vue-router";
 import {defineRule, ErrorMessage, Field, Form} from 'vee-validate';
+import {useStore} from "vuex";
 
 const login = ref(null)
 const password = ref(null)
-const isAuth = ref(false)
 const router = useRouter()
+const store = useStore()
 
 defineRule('required', value => {
   if (!value || !value.length) {
@@ -44,23 +45,21 @@ defineRule('required', value => {
 });
 
 onMounted(() => {
-  isAuth.value = localStorage.getItem('auth') === 'true'
+  store.dispatch('getItems')
 })
 
 function loginUser(){
   if(login.value === 'admin' && password.value === 'admin'){
-    isAuth.value = true
-    localStorage.setItem('auth', 'true')
+    store.dispatch('login')
   }
 }
 function logoutUser(){
-  isAuth.value = false
-  localStorage.setItem('auth', 'false')
+  store.dispatch('logout')
   router.push({name: 'Main'})
 }
 
 function createGood(el){
-  let items = JSON.parse(localStorage.getItem('items'))
+  let items = store.state.items
   let maxId = 0
   if(items !== null){
     items.forEach((item) => {
@@ -71,8 +70,7 @@ function createGood(el){
     items = []
     el.id = 1
   }
-   items.push(el)
-   localStorage.setItem('items', JSON.stringify(items))
+  store.dispatch('addItem', el)
 }
 
 </script>
