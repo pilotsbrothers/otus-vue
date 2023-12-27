@@ -13,26 +13,23 @@ const router = createRouter({
 		{
 			path: '/catalog',
 			name: 'Catalog',
-			// route level code-splitting
-			// this generates a separate chunk (About.[hash].js) for this route
-			// which is lazy-loaded when the route is visited.
 			component: ListItems
 		},
 		{
-			path: '/admin',
-			name: 'Admin',
-			// route level code-splitting
-			// this generates a separate chunk (About.[hash].js) for this route
-			// which is lazy-loaded when the route is visited.
-			component: () => import('../views/Admin.vue')
+			path: '/catalog/:id',
+			name: 'CatalogItem',
+			props: (route) => ({id: route.params.id}),
+			component: () => import('../views/CatalogItemView.vue'),
+		},
+		{
+			path: '/login',
+			name: 'Login',
+			component: () => import('../views/AdminView.vue')
 		},
 		{
 			path: '/cards',
 			name: 'Cards',
-			// route level code-splitting
-			// this generates a separate chunk (About.[hash].js) for this route
-			// which is lazy-loaded when the route is visited.
-			component: () => import('../views/Cards.vue')
+			component: () => import('../views/CardView.vue')
 		}
 	],
 })

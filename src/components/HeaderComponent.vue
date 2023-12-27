@@ -12,26 +12,32 @@
       </el-menu-item>
       <el-menu-item index="1"><router-link :to="{name: 'Main'}">Главная</router-link></el-menu-item>
       <el-menu-item index="2"><router-link :to="{name: 'Catalog'}">Каталог товаров</router-link></el-menu-item>
-      <el-menu-item index="3"><router-link :to="{name: 'Admin'}">Админ панель</router-link></el-menu-item>
+      <el-menu-item index="3"><router-link :to="{name: 'Login'}">Админ панель</router-link></el-menu-item>
       <el-menu-item index="4"><router-link :to="{name: 'Cards'}" class="card-item"><el-icon class="card-item__img"><ShoppingBag /></el-icon></router-link></el-menu-item>
     </el-menu>
   </div>
 </template>
 
 <script setup>
-  import {ref} from "vue";
+  import {onMounted, ref} from "vue";
 
   const activeIndex = ref('1')
+  const isAuth = ref(false)
+
   function handleSelect(){}
+
+  onMounted(() => {
+    isAuth.value = localStorage.getItem('auth') === 'true';
+  })
 </script>
 
 
 
 <style scoped lang="scss">
 .header-block{
-  width: 100%;
   height: 55px;
-  position: relative;
+  position: absolute;
+  top: 10px;
   display: inline-block;
 
   .header {
