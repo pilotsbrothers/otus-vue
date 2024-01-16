@@ -1,5 +1,5 @@
 <template>
-  <el-card class="item" @click="dialogVisible = true">
+  <el-card class="item" @click="dialogVisible.value = true">
     {{ item.title }}
     <div>
       <el-button class="btn-order" :type=" inOrder ? 'danger' : 'primary'" @click.stop="processOrder(item)">
@@ -19,7 +19,7 @@
     <div class="description">{{ item.description }}</div>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">Отмена</el-button>
+        <el-button @click="dialogVisible.value = false">Отмена</el-button>
       </span>
     </template>
   </el-dialog>
@@ -27,9 +27,9 @@
 
 <script setup>
 import {ElButton, ElCard, ElDialog} from 'element-plus'
-import {defineEmits, ref} from "vue"
+import {defineEmits, onMounted, ref} from "vue"
 
-defineProps(['item'])
+const props = defineProps(['item'])
 const dialogVisible = ref(false)
 const inOrder = ref(false)
 const emit = defineEmits(['changeOrder'])
@@ -38,6 +38,10 @@ function processOrder(el) {
   inOrder.value = !inOrder.value
   emit('changeOrder', [inOrder.value, el])
 }
+
+onMounted(() => {
+  inOrder.value = props.item.inOrder
+})
 </script>
 
 <style scoped>
