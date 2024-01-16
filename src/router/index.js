@@ -29,7 +29,10 @@ const router = createRouter({
 		{
 			path: '/cards',
 			name: 'Cards',
-			component: () => import('../views/CardView.vue')
+			component: () => import('../views/CardView.vue'),
+			beforeEnter(){
+				return localStorage.getItem('auth') !== 'true';
+			}
 		}
 	],
 })
