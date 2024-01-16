@@ -2,7 +2,7 @@
   <MainLayout>
     <template #main>
       <ul>
-        <li v-for="element in store.state.card" v-bind:key="element">
+        <li v-for="element in store.state.card.card" v-bind:key="element">
           <router-link :to="{ 'name': 'CatalogItem', params: { id: element.id } }">{{element.title}}</router-link>
         </li>
       </ul>

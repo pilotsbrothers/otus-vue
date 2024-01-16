@@ -18,7 +18,7 @@ const store = useStore()
 
 const item = computed(() => {
   let item = {}
-  store.state.items.forEach((el) => {
+  store.state.app.items.forEach((el) => {
     if(parseInt(props.id) === parseInt(el.id)){
       item = el
     }

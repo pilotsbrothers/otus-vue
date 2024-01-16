@@ -3,7 +3,7 @@
     <template #main>
       <template v-if="isLoading">
         <search v-model="searchGoods" />
-        <list-items :data="store.state.items" :search="searchGoods" />
+        <list-items :data="store.state.app.items" :search="searchGoods" />
       </template>
     </template>
   </MainLayout>

@@ -1,7 +1,7 @@
 <template>
   <MainLayout>
     <template #main>
-      <Form ref="form" v-if="!store.state.isAuth">
+      <Form ref="form" v-if="!store.state.user.isAuth">
         <el-form-item label="Логин">
           <Field name="login" id="login" v-model="login" placeholder="" rules="required"></Field>
           <ErrorMessage name="login" class="error"/>
@@ -15,11 +15,11 @@
         </el-form-item>
       </Form>
 
-      <el-form-item v-if="store.state.isAuth === true">
+      <el-form-item v-if="store.state.user.isAuth === true">
         <el-button type="primary" @click="logoutUser" class="btn-logout">Выйти</el-button>
       </el-form-item>
 
-      <create-goods v-if="store.state.isAuth === true" @create-good="createGood"></create-goods>
+      <create-goods v-if="store.state.user.isAuth === true" @create-good="createGood"></create-goods>
     </template>
   </MainLayout>
 </template>
@@ -59,7 +59,7 @@ function logoutUser(){
 }
 
 function createGood(el){
-  let items = store.state.items
+  let items = store.state.app.items
   let maxId = 0
   if(items !== null){
     items.forEach((item) => {

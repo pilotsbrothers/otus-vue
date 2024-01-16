@@ -44,7 +44,7 @@ function processOrder(el) {
 }
 
 onMounted(() => {
-  store.state.card.forEach((item) => {
+  store.state.card.card.forEach((item) => {
     if(parseInt(props.item.id) === parseInt(item.id)){
       inOrder.value = true
     }
